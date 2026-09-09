@@ -83,7 +83,7 @@ LAB_METADATA = {
         ],
         "theory": """
 **Arithmetic Operations:**
-- **Addition ($cv2.addWeighted$):** Blends two images using weights: $g(x,y) = \alpha f_1(x,y) + \beta f_2(x,y) + \gamma$.
+- **Addition ($cv2.addWeighted$):** Blends two images using weights: $g(x,y) = \\alpha f_1(x,y) + \\beta f_2(x,y) + \\gamma$.
 - **Subtraction ($cv2.subtract$):** Computes pixel-wise difference, highlighting differences or changes between two images.
 
 **Bitwise Operations:**
@@ -227,44 +227,44 @@ OpenCV's $cv2.matchTemplate$ with `cv2.TM_CCOEFF_NORMED` scores matches from $-1
             ("**How is the bounding box drawn around the detected target?**", "Using the coordinate index of the peak match along with the template's width and height.")
         ]
     },
-    "Post-Lab 1: Frequency Domain Filtering": {
-        "aim": "Compute the 2D Discrete Fourier Transform (DFT) magnitude spectrum and implement ideal low-pass and high-pass frequency domain filters.",
-        "objectives": [
-            "Transform spatial images into the frequency domain using 2D-DFT.",
-            "Inspect low frequencies (centered) and high frequencies (outer edges).",
-            "Apply ideal circular frequency masks and reconstruct images using Inverse DFT."
-        ],
-        "theory": """
-**Frequency Domain Processing:**
-Decomposes an image into sine and cosine frequency components:
-$$F(u, v) = \\sum_{x=0}^{M-1} \\sum_{y=0}^{N-1} f(x, y) e^{-j 2\\pi (\\frac{ux}{M} + \\frac{vy}{N})}$$
-- **Low Frequencies:** Smooth surfaces and gradual intensity changes.
-- **High Frequencies:** Edges, contours, and fine textures.
-- **Ideal Low-Pass Filter (ILPF):** Passes frequencies within radius $D_0$, blurring edges.
-- **Ideal High-Pass Filter (IHPF):** Attenuates low frequencies, leaving boundary edges.
-        """,
-        "viva": [
-            ("**Why do we apply fftshift to the DFT output?**", "To move the zero-frequency DC component to the center of the spectrum for easier interpretation and filtering."),
-            ("**What visual artifact is caused by ideal frequency filters?**", "Ringing artifacts (Gibbs phenomenon) caused by the sharp cutoff in the frequency domain.")
-        ]
-    },
     "Post-Lab 2: Advanced Color Spaces & Channels": {
-        "aim": "Convert images between RGB, HSV, YCrCb, and CIELAB color spaces and evaluate individual channel components.",
+        "aim": "Convert images between the RGB, HSV, YCrCb, and Lab colour spaces, analyzing how colour information is encoded in each.",
         "objectives": [
-            "Decompose images across perceptual and transmission color spaces.",
-            "Analyze luminance vs chrominance decoupling.",
-            "Inspect individual color channels (Hue, Saturation, Cr, Cb, L*, a*, b*)."
+            "Understand and apply color space conversion techniques in OpenCV (RGB, HSV, YCrCb, Lab).",
+            "Analyze differences in color representation emphasizing hue, brightness, and chrominance.",
+            "Visualize and interpret individual channels to assess isolation of color and intensity components."
         ],
         "theory": """
 **Color Models:**
-- **RGB:** Additive hardware display model; couples color and luminance in every channel.
-- **HSV:** Perceptual representation dividing color into Hue (type), Saturation (vibrancy), and Value (brightness).
-- **YCrCb:** Used in JPEG/MPEG video transmission; decouples Luminance ($Y$) from Chroma differences ($Cr, Cb$).
-- **CIELAB:** Perceptually uniform space modeling human vision via Lightness ($L^*$), green-magenta ($a^*$), and blue-yellow ($b^*$).
+- **RGB:** Additive display model; couples color and luminance in every channel.
+- **HSV:** Perceptual model separating Hue (type), Saturation (vibrancy), and Value (brightness).
+- **YCrCb:** Used in video transmission; decouples Luminance ($Y$) from Chroma differences ($Cr, Cb$).
+- **CIELAB:** Perceptually uniform space modeling human vision via Lightness ($L^*$), green-red ($a^*$), and blue-yellow ($b^*$).
         """,
         "viva": [
-            ("**Why is HSV preferred over RGB for color-based object segmentation?**", "Hue isolates the pure color independently of lighting conditions, making thresholding robust against shadows."),
-            ("**Why does YCrCb enable higher compression ratios in JPEG?**", "Human vision is less sensitive to high-frequency color detail than brightness, enabling chroma subsampling.")
+            ("**Why is HSV preferred over RGB for color-based object segmentation?**", "Hue isolates pure chromatic color independently of illumination and shadows."),
+            ("**Why does YCrCb enable higher compression ratios?**", "Human vision is less sensitive to high-frequency color differences than to brightness, allowing chroma subsampling.")
+        ]
+    },
+    "Post-Lab 3: Edge Detection (Canny, Sobel, Prewitt)": {
+        "aim": "Detect edges in images with the Canny method and contrast the results with Sobel and Prewitt detectors.",
+        "objectives": [
+            "Implement edge detection on grayscale images using the Canny edge detection method.",
+            "Apply Sobel and Prewitt operators for horizontal and vertical edge gradient detection.",
+            "Compare and contrast results across Canny, Sobel, and Prewitt methods regarding edge clarity, noise sensitivity, and computational complexity."
+        ],
+        "theory": """
+**Edge Detection Operators:**
+1. **Sobel Operator:** Computes first-order gradients using weighted $3\\times3$ masks:
+   $$K_x = \\begin{bmatrix} -1 & 0 & 1 \\\\ -2 & 0 & 2 \\\\ -1 & 0 & 1 \\end{bmatrix}, \\quad K_y = \\begin{bmatrix} -1 & -2 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 2 & 1 \\end{bmatrix}$$
+2. **Prewitt Operator:** Computes first-order gradients using uniform $3\\times3$ masks:
+   $$K_x = \\begin{bmatrix} -1 & 0 & 1 \\\\ -1 & 0 & 1 \\\\ -1 & 0 & 1 \\end{bmatrix}, \\quad K_y = \\begin{bmatrix} -1 & -1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & 1 \\end{bmatrix}$$
+3. **Canny Edge Detector:** A robust 5-stage algorithm:
+   - Gaussian Smoothing $\\rightarrow$ Gradient Computation $\\rightarrow$ Non-Maximum Suppression (edge thinning) $\\rightarrow$ Double Thresholding $\\rightarrow$ Edge Tracking by Hysteresis.
+        """,
+        "viva": [
+            ("**Why does Canny produce thinner, cleaner edges than Sobel and Prewitt?**", "Canny employs non-maximum suppression to thin gradients to 1-pixel widths and hysteresis to link broken edge contours."),
+            ("**How does aperture size and L2Gradient influence Canny edge detection?**", "Aperture size controls the Sobel kernel window for gradient estimation; L2Gradient uses the true Euclidean norm $\\sqrt{G_x^2 + G_y^2}$ for higher accuracy.")
         ]
     }
 }
@@ -277,7 +277,6 @@ with st.sidebar:
     uploaded_file = st.file_uploader("Upload Image File", type=["jpg", "jpeg", "png"])
     st.caption("Upload any standard JPG or PNG photo to run the experiment.")
 
-# --- Helper Functions ---
 def get_download_bytes(img_array):
     pil_img = Image.fromarray(img_array)
     buf = io.BytesIO()
@@ -514,37 +513,8 @@ with tab_app:
             c1.image(template, caption="Template Sub-Window", use_container_width=True)
             c2.image(detected, caption="Detected Template Locations", use_container_width=True)
 
-        # POST-LAB 1
-        elif "Post-Lab 1" in selected_exp:
-            dft = cv2.dft(np.float32(img_gray), flags=cv2.DFT_COMPLEX_OUTPUT)
-            dft_shift = np.fft.fftshift(dft)
-            mag = 20 * np.log(cv2.magnitude(dft_shift[:, :, 0], dft_shift[:, :, 1]) + 1)
-            norm_mag = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            f_type = st.radio("Frequency Filter", ["Spectrum Only", "Ideal Low-Pass Filter", "Ideal High-Pass Filter"], horizontal=True)
-            if f_type == "Spectrum Only":
-                c1, c2 = st.columns(2)
-                c1.image(img_gray, caption="Grayscale Spatial Image", use_container_width=True)
-                c2.image(norm_mag, caption="2D-DFT Frequency Spectrum", use_container_width=True)
-            else:
-                radius = st.slider("Cutoff Radius (D0)", 10, min(rows, cols) // 2, 40)
-                crow, ccol = rows // 2, cols // 2
-                y, x = np.ogrid[:rows, :cols]
-                dist = np.sqrt((x - ccol)**2 + (y - crow)**2)
-                mask = dist <= radius if "Low-Pass" in f_type else dist > radius
-                fshift = dft_shift.copy()
-                fshift[:, :, 0] *= mask
-                fshift[:, :, 1] *= mask
-                f_ishift = np.fft.ifftshift(fshift)
-                img_back = cv2.idft(f_ishift)
-                img_back = cv2.magnitude(img_back[:, :, 0], img_back[:, :, 1])
-                cv2.normalize(img_back, img_back, 0, 255, cv2.NORM_MINMAX)
-                c1, c2, c3 = st.columns(3)
-                c1.image(img_gray, caption="Original Gray", use_container_width=True)
-                c2.image(mask.astype(np.uint8) * 255, caption="Filter Mask", use_container_width=True)
-                c3.image(img_back.astype(np.uint8), caption="Reconstructed (Inverse DFT)", use_container_width=True)
-
-        # POST-LAB 2
-        else:
+        # POST-LAB 2 (INTACT)
+        elif "Post-Lab 2" in selected_exp:
             space = st.selectbox("Target Color Space", ["HSV", "YCrCb", "CIELAB"])
             if space == "HSV":
                 converted = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2HSV)
@@ -561,3 +531,72 @@ with tab_app:
             ca.image(c1, caption=labels[0], use_container_width=True)
             cb.image(c2, caption=labels[1], use_container_width=True)
             cc.image(c3, caption=labels[2], use_container_width=True)
+
+        # POST-LAB 3 (NEW: CANNY, SOBEL, PREWITT)
+        else:
+            edge_method = st.selectbox("Edge Detection Method", [
+                "Canny Edge Detector (Tunable Multi-Stage)",
+                "Sobel Operator (Gradient Magnitude)",
+                "Prewitt Operator (Kernel Convolution)",
+                "Side-by-Side Comparison (Canny vs Sobel vs Prewitt)"
+            ])
+
+            if edge_method == "Canny Edge Detector (Tunable Multi-Stage)":
+                col_c1, col_c2 = st.columns(2)
+                with col_c1:
+                    t_lower = st.slider("Lower Threshold (T_lower)", 0, 255, 50)
+                    t_upper = st.slider("Upper Threshold (T_upper)", 0, 255, 150)
+                with col_c2:
+                    aperture = st.selectbox("Sobel Aperture Size", [3, 5, 7], index=0)
+                    use_l2 = st.checkbox("Enable L2Gradient (Euclidean Norm)", value=True)
+
+                blur_first = st.checkbox("Apply Gaussian Blur Preprocessing (5x5, sigma=1.4)", value=True)
+                canny_src = cv2.GaussianBlur(img_gray, (5, 5), 1.4) if blur_first else img_gray
+                canny_edges = cv2.Canny(canny_src, t_lower, t_upper, apertureSize=aperture, L2gradient=use_l2)
+
+                c1, c2 = st.columns(2)
+                c1.image(img_gray, caption="Original Grayscale", use_container_width=True)
+                c2.image(canny_edges, caption=f"Canny Edges (Lower={t_lower}, Upper={t_upper}, Aperture={aperture})", use_container_width=True)
+                st.download_button("📥 Download Canny Edges", get_download_bytes(canny_edges), "canny_edges.png")
+
+            elif edge_method == "Sobel Operator (Gradient Magnitude)":
+                ksize = st.selectbox("Sobel Kernel Size", [3, 5, 7], index=0)
+                sobelx = cv2.Sobel(img_gray, cv2.CV_64F, 1, 0, ksize=ksize)
+                sobely = cv2.Sobel(img_gray, cv2.CV_64F, 0, 1, ksize=ksize)
+                sobel_mag = cv2.magnitude(sobelx, sobely)
+                sobel_edges = np.uint8(np.clip(sobel_mag, 0, 255))
+
+                c1, c2 = st.columns(2)
+                c1.image(img_gray, caption="Original Grayscale", use_container_width=True)
+                c2.image(sobel_edges, caption=f"Sobel Edge Magnitude (ksize={ksize})", use_container_width=True)
+                st.download_button("📥 Download Sobel Edges", get_download_bytes(sobel_edges), "sobel_edges.png")
+
+            elif edge_method == "Prewitt Operator (Kernel Convolution)":
+                kernelx = np.array([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]], dtype=np.float32)
+                kernely = np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]], dtype=np.float32)
+                prewittx = cv2.filter2D(img_gray, cv2.CV_64F, kernelx)
+                prewitty = cv2.filter2D(img_gray, cv2.CV_64F, kernely)
+                prewitt_mag = cv2.magnitude(prewittx, prewitty)
+                prewitt_edges = np.uint8(np.clip(prewitt_mag, 0, 255))
+
+                c1, c2 = st.columns(2)
+                c1.image(img_gray, caption="Original Grayscale", use_container_width=True)
+                c2.image(prewitt_edges, caption="Prewitt Edge Magnitude", use_container_width=True)
+                st.download_button("📥 Download Prewitt Edges", get_download_bytes(prewitt_edges), "prewitt_edges.png")
+
+            else:
+                # Direct comparison of all three algorithms
+                c_edge = cv2.Canny(cv2.GaussianBlur(img_gray, (5, 5), 1.4), 50, 150)
+
+                sx = cv2.Sobel(img_gray, cv2.CV_64F, 1, 0, ksize=3)
+                sy = cv2.Sobel(img_gray, cv2.CV_64F, 0, 1, ksize=3)
+                s_edge = np.uint8(np.clip(cv2.magnitude(sx, sy), 0, 255))
+
+                px = cv2.filter2D(img_gray, cv2.CV_64F, np.array([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]], dtype=np.float32))
+                py = cv2.filter2D(img_gray, cv2.CV_64F, np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]], dtype=np.float32))
+                p_edge = np.uint8(np.clip(cv2.magnitude(px, py), 0, 255))
+
+                c1, c2, c3 = st.columns(3)
+                c1.image(c_edge, caption="Canny Detector (Thin, Non-Max Suppressed)", use_container_width=True)
+                c2.image(s_edge, caption="Sobel Detector (First-order Gradient)", use_container_width=True)
+                c3.image(p_edge, caption="Prewitt Detector (Uniform Convolution)", use_container_width=True)
