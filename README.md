@@ -6,8 +6,8 @@
 ---
 
 ## 🔗 Project Links
-- **Live Deployment URL:** [https://image-processing-postlab-jbmubfpswzk7syvbdknj.streamlit.app](https://image-processing-postlab-jbmubfpswzk7syvbdknj.streamlit.app)
-- **GitHub Repository:** [https://github.com/maviyamkhan1/image-processing-postlab](https://github.com/maviyamkhan1/image-processing-postlab)
+- **Live Deployment URL:** https://image-processing-postlab-jbnwhfpmwzk7syrbe8lsnj.streamlit.app/
+- **GitHub Repository:** https://github.com/maviyamkhan1/Image-Processing-Postlab
 
 ---
 
