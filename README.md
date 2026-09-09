@@ -2,8 +2,8 @@
 **Department of Computer Science & Engineering, S.B.J.I.T.M.R., Nagpur**
 
 ## 🔗 Project Links
-- **Live Deployment URL:** https://YOUR-STREAMLIT-URL.streamlit.app
-- **GitHub Repository:** https://github.com/YOUR-USERNAME/dip-lab-portal
+- **Live Deployment URL:** https://image-processing-postlab-jbnwhfpmwzk7syrbe8lsnj.streamlit.app/
+- **GitHub Repository:** https://github.com/maviyamkhan16-web/Image-Processing-Postlab
 
 ## 📱 Mobile App QR Code
 Scan to open the interactive application directly:
